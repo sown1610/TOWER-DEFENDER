@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -9,6 +9,9 @@ public class LevelManager : Singleton<LevelManager>
 
     [SerializeField]
     private CameraMovement cameraMovement;
+
+    [SerializeField]
+    private Transform map;
 
     private Point blueSpawn, redSpawn;
 
@@ -76,8 +79,9 @@ public class LevelManager : Singleton<LevelManager>
         int tileIndex = int.Parse(tileType);
         TileScript newTile = Instantiate(tilePrefabs[tileIndex]).GetComponent<TileScript>();
         //Lay vi tri grid de di chuyen camera
-        newTile.GetComponent<TileScript>().Setup(new Point(x, y), new Vector3(worldStart.x + (TileSize * x), worldStart.y - (TileSize * y), 0));
-        Tiles.Add(new Point(x, y), newTile);
+
+        newTile.Setup(new Point(x, y), new Vector3(worldStart.x + (TileSize * x), worldStart.y - (TileSize * y), 0),map);
+
     }
     private string[] ReadLevelText()
     {
