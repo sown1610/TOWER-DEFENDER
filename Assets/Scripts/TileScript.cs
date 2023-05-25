@@ -29,5 +29,9 @@ public class TileScript : MonoBehaviour
     {
         this.GridPostion = GridPostion;
         transform.position = worldPos;
+
+
+        //Them vi tri moi tile vao Dictionary Tiles
+        LevelManager.Instance.Tiles.Add(gridPos, this);
     }
 }

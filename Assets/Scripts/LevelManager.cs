@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-public class LevelManager : MonoBehaviour
+public class LevelManager : Singleton<LevelManager>
 {
     [SerializeField]
     private GameObject[] tilePrefabs;
@@ -34,10 +34,14 @@ public class LevelManager : MonoBehaviour
     {
 
     }
-    private void test()
+   
+    public void Swap<T>(ref T a, ref T b)
     {
-
+        T tmp = a;
+        a = b; 
+        b = tmp;
     }
+   
     //tao map bang Level.txt
     private void CreateLevel()
     {
@@ -89,4 +93,5 @@ public class LevelManager : MonoBehaviour
         redSpawn = new Point(11, 6);
         Instantiate(redPortalPrefab, Tiles[redSpawn].GetComponent<TileScript>().WorldPosition, Quaternion.identity);
     }
+   
 }
