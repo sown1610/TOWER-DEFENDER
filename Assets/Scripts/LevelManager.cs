@@ -1,14 +1,17 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-public class LevelManager : MonoBehaviour
+public class LevelManager : Singleton<LevelManager>
 {
     [SerializeField]
     private GameObject[] tilePrefabs;
 
     [SerializeField]
     private CameraMovement cameraMovement;
+
+    [SerializeField]
+    private Transform map;
 
     private Point blueSpawn, redSpawn;
 
@@ -34,10 +37,14 @@ public class LevelManager : MonoBehaviour
     {
 
     }
-    private void test()
+   
+    public void Swap<T>(ref T a, ref T b)
     {
-
+        T tmp = a;
+        a = b; 
+        b = tmp;
     }
+   
     //tao map bang Level.txt
     private void CreateLevel()
     {
@@ -72,8 +79,9 @@ public class LevelManager : MonoBehaviour
         int tileIndex = int.Parse(tileType);
         TileScript newTile = Instantiate(tilePrefabs[tileIndex]).GetComponent<TileScript>();
         //Lay vi tri grid de di chuyen camera
-        newTile.GetComponent<TileScript>().Setup(new Point(x, y), new Vector3(worldStart.x + (TileSize * x), worldStart.y - (TileSize * y), 0));
-        Tiles.Add(new Point(x, y), newTile);
+
+        newTile.Setup(new Point(x, y), new Vector3(worldStart.x + (TileSize * x), worldStart.y - (TileSize * y), 0),map);
+
     }
     private string[] ReadLevelText()
     {
@@ -89,4 +97,5 @@ public class LevelManager : MonoBehaviour
         redSpawn = new Point(11, 6);
         Instantiate(redPortalPrefab, Tiles[redSpawn].GetComponent<TileScript>().WorldPosition, Quaternion.identity);
     }
+   
 }

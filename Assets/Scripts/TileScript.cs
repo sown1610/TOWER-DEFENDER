@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,9 +26,26 @@ public class TileScript : MonoBehaviour
     {
         
     }
-    public void Setup(Point gridPos, Vector3 worldPos)
+    public void Setup(Point gridPos, Vector3 worldPos, Transform parent)
     {
-        this.GridPostion = GridPostion;
+        this.GridPostion = gridPos;
         transform.position = worldPos;
+        transform.SetParent(parent);
+
+        //Them vi tri moi tile vao Dictionary Tiles
+        LevelManager.Instance.Tiles.Add(gridPos, this);
+    }
+
+    private void OnMouseOver()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            PlaceTower();
+        }
+    }
+
+    private void PlaceTower()
+    {
+        Instantiate(GameManager.Instance.TowerPrefab, transform.position, Quaternion.identity);
     }
 }
